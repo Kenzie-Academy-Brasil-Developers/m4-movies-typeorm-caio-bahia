@@ -13,6 +13,7 @@ const read = async (req: Request, res: Response): Promise<Response> => {
 }
 const update = async (req: Request, res: Response): Promise<Response> => {
   const movie: Movie = await movieServices.update(res.locals.movie, req.body)
+  console.log("aqui!!!!!", res.locals.movie)
   return res.status(200).json(movie)
 }
 const destroy = async (req: Request, res: Response): Promise<Response> => {
