@@ -1,7 +1,7 @@
 import express, { Application, json } from "express"
 import "express-async-errors"
 import middlewares from "./middlewares"
-import { movieRouter } from "./routers"
+import { movieRouter } from "./routes"
 
 const app: Application = express()
 app.use(json())

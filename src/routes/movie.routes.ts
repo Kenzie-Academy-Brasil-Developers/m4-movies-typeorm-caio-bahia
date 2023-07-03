@@ -17,5 +17,11 @@ movieRouter.get("", middlewares.pagination, movieControllers.read)
 
 movieRouter.use(":/id", middlewares.verifyIdExists)
 
-movieRouter.patch("/:id", middlewares.validateBody(movieUpdateSchema), movieControllers.update)
+movieRouter.patch(
+  "/:id",
+  middlewares.validateBody(movieUpdateSchema),
+  verifyIdExists,
+  verifyIfNameExists,
+  movieControllers.update
+)
 movieRouter.delete("/:id", verifyIdExists, movieControllers.destroy)
