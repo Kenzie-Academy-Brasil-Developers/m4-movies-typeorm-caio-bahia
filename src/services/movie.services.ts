@@ -1,6 +1,13 @@
 import { AppDataSource } from "../data-source"
 import { Movie } from "../entities"
-import { movieCreate, movieRead, movieRepo, movieUpdate } from "../interfaces"
+import {
+  Pagination,
+  PaginationParams,
+  movieCreate,
+  movieRead,
+  movieRepo,
+  movieUpdate
+} from "../interfaces"
 
 const create = async (payload: movieCreate): Promise<Movie> => {
   const repo: movieRepo = AppDataSource.getRepository(Movie)
@@ -9,9 +16,23 @@ const create = async (payload: movieCreate): Promise<Movie> => {
 
   return movie
 }
-const read = async (): Promise<movieRead> => {
+const read = async ({
+  page,
+  perPage,
+  prevPage,
+  nextPage
+}: PaginationParams): Promise<Pagination> => {
   const repo: movieRepo = AppDataSource.getRepository(Movie)
-  return await repo.find()
+  const [movies, count]: [Movie[], number] = await repo.findAndCount({
+    skip: page, //offset
+    take: perPage //limit
+  })
+  return {
+    prevPage: page <= 1 ? null : prevPage,
+    nextPage: count - page <= perPage ? null : nextPage,
+    count,
+    data: movies
+  }
 }
 const update = async (movie: Movie, payload: movieUpdate): Promise<Movie> => {
   const repo: movieRepo = AppDataSource.getRepository(Movie)
