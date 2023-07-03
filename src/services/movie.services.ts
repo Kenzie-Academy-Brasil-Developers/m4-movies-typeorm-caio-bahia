@@ -39,6 +39,7 @@ const read = async ({
 }
 const update = async (movie: Movie, payload: movieUpdate): Promise<Movie> => {
   const repo: movieRepo = AppDataSource.getRepository(Movie)
+
   const movieUpdate: Movie = repo.create({ ...movie, ...payload })
 
   await repo.save(movieUpdate)
@@ -47,7 +48,7 @@ const update = async (movie: Movie, payload: movieUpdate): Promise<Movie> => {
 }
 const destroy = async (movie: Movie): Promise<void> => {
   const repo: movieRepo = AppDataSource.getRepository(Movie)
-  await repo.remove(movie)
+  await repo.delete({ id: movie.id })
 }
 
 export default { create, read, update, destroy }

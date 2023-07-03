@@ -10,10 +10,9 @@ const verifyIdExists = async (req: Request, res: Response, next: NextFunction): 
   const id: number = Number(req.params.id)
 
   const movieExists: boolean = await repo.exist({ where: { id } })
+  if (!movieExists) throw new AppError("Movie not found", 404)
 
-  if (!movieExists) throw new AppError("Movie not Found", 404)
-
-  res.locals = { ...res.locals, movie: movieExists }
+  res.locals = { ...res.locals, movie: id }
   return next()
 }
 

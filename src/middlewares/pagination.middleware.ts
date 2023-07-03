@@ -3,12 +3,10 @@ import { NextFunction, Request, Response } from "express"
 const pagination = (req: Request, res: Response, next: NextFunction): void => {
   const queryPage: number = Number(req.query.page)
   const queryPerPage: number = Number(req.query.perPage)
-  console.log(queryPage)
-  console.log(queryPerPage)
+
   const page: number = queryPage && queryPage > 1 ? queryPage : 1
   const perPage: number = queryPerPage && queryPerPage <= 5 && queryPerPage > 0 ? queryPerPage : 5
-  console.log(page)
-  console.log(perPage)
+
   const querySort: any = req.query.sort
   const queryOrder: any = req.query.order
 
