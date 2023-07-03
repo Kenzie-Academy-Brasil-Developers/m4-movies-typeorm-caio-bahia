@@ -19,19 +19,22 @@ const create = async (payload: movieCreate): Promise<Movie> => {
 const read = async ({
   page,
   perPage,
+  order,
+  sort,
   prevPage,
   nextPage
 }: PaginationParams): Promise<Pagination> => {
   const repo: movieRepo = AppDataSource.getRepository(Movie)
   const [movies, count]: [Movie[], number] = await repo.findAndCount({
-    skip: page, //offset
-    take: perPage //limit
+    order: { [sort]: order },
+    skip: page,
+    take: perPage
   })
   return {
-    prevPage: page <= 1 ? null : prevPage,
-    nextPage: count - page <= perPage ? null : nextPage,
     count,
-    data: movies
+    data: movies,
+    prevPage: page <= 1 ? null : prevPage,
+    nextPage: count - page <= perPage ? null : nextPage
   }
 }
 const update = async (movie: Movie, payload: movieUpdate): Promise<Movie> => {
